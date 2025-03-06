@@ -1,34 +1,32 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { NovaPoshtaService } from './nova-poshta.service';
-import { CreateNovaPoshtaDto } from './dto/create-nova-poshta.dto';
-import { UpdateNovaPoshtaDto } from './dto/update-nova-poshta.dto';
+import { Controller, Get, Post, Patch, Delete } from '@nestjs/common'
+import { NovaPoshtaService } from './nova-poshta.service'
 
 @Controller('nova-poshta')
 export class NovaPoshtaController {
   constructor(private readonly novaPoshtaService: NovaPoshtaService) {}
 
   @Post()
-  create(@Body() createNovaPoshtaDto: CreateNovaPoshtaDto) {
-    return this.novaPoshtaService.create(createNovaPoshtaDto);
+  create() {
+    return this.novaPoshtaService.create()
   }
 
   @Get()
   findAll() {
-    return this.novaPoshtaService.findAll();
+    return this.novaPoshtaService.findAll()
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.novaPoshtaService.findOne(+id);
+  findOne() {
+    return this.novaPoshtaService.findOne()
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNovaPoshtaDto: UpdateNovaPoshtaDto) {
-    return this.novaPoshtaService.update(+id, updateNovaPoshtaDto);
+  update() {
+    return this.novaPoshtaService.update()
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.novaPoshtaService.remove(+id);
+  remove() {
+    return this.novaPoshtaService.remove()
   }
 }

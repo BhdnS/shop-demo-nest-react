@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
-import { NovaPoshtaService } from './nova-poshta.service';
-import { NovaPoshtaController } from './nova-poshta.controller';
+import { Module } from '@nestjs/common'
+import { NovaPoshtaService } from './nova-poshta.service'
+import { NovaPoshtaController } from './nova-poshta.controller'
 
 @Module({
   controllers: [NovaPoshtaController],
