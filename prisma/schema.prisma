@@ -14,10 +14,54 @@ datasource db {
 }
 
 enum Role {
-  admin
   user
+  admin
 }
 
 model User {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  email    String     @unique
+  password String
+  name     String
+  role     Role       @default(user)
+  Category Category[]
+  Order    Order[]
+}
+
+model Category {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  image     String
+  createdBy String    @db.ObjectId
+  userId    User      @relation(fields: [createdBy], references: [id])
+  Product   Product[]
+}
+
+model Product {
+  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  price        Float
+  description  String
+  image        String[]
+  category     String         @db.ObjectId
+  categoryId   Category       @relation(fields: [category], references: [id])
+  ProductOrder ProductOrder[]
+}
+
+model Order {
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  user             String         @db.ObjectId
+  userId           User           @relation(fields: [user], references: [id])
+  totalPrice       Float
+  novaPoshtaBranch String
+  products         ProductOrder[]
+}
+
+model ProductOrder {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  Order     Order   @relation(fields: [orderId], references: [id])
+  orderId   String  @db.ObjectId
+  quantity  Int
+  product   String  @db.ObjectId
+  productId Product @relation(fields: [product], references: [id])
 }
