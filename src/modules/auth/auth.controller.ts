@@ -1,36 +1,33 @@
-import { Controller, Get, Post, Patch, Param, Delete } from '@nestjs/common'
+import { Body, Controller, Post, Req, Res } from '@nestjs/common'
 import { AuthService } from './auth.service'
 import { ApiTags } from '@nestjs/swagger'
 import ApiTagsEnum from '../../types/enums/api-tags'
 import { AuthControllerLinks } from '../../types/enums/controllers-links'
+import { Response, Request } from 'express'
+import { LoginUserDto, RegisterUserDto } from './dto'
 
 @ApiTags(ApiTagsEnum.AUTH)
 @Controller(AuthControllerLinks.CONTROLLER)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
-  create() {
-    return this.authService.create()
+  @Post(AuthControllerLinks.REGISTER)
+  register(@Body() dto: RegisterUserDto, @Res() res: Response): Promise<void> {
+    return this.authService.registerUser(dto, res)
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll()
+  @Post(AuthControllerLinks.LOGIN)
+  login(@Body() dto: LoginUserDto, @Res() res: Response): Promise<void> {
+    return this.authService.loginUser(dto, res)
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id)
+  @Post(AuthControllerLinks.LOGOUT)
+  logout(@Res() res: Response): Promise<void> {
+    return this.authService.logout(res)
   }
 
-  @Patch(':id')
-  update() {
-    return this.authService.update()
-  }
-
-  @Delete(':id')
-  remove() {
-    return this.authService.remove()
+  @Post(AuthControllerLinks.REFRESH_TOKEN)
+  refreshToken(@Req() req: Request, @Res() res: Response): Promise<void> {
+    return this.authService.refreshToken(req, res)
   }
 }

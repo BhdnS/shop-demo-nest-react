@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -19,7 +19,7 @@ enum Role {
 }
 
 model User {
-  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int        @id @default(autoincrement())
   email    String     @unique
   password String
   name     String
@@ -29,28 +29,28 @@ model User {
 }
 
 model Category {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  id        Int       @id @default(autoincrement())
   name      String
   image     String
-  createdBy String    @db.ObjectId
+  createdBy Int
   userId    User      @relation(fields: [createdBy], references: [id])
   Product   Product[]
 }
 
 model Product {
-  id           String         @id @default(auto()) @map("_id") @db.ObjectId
+  id           Int            @id @default(autoincrement())
   title        String
   price        Float
   description  String
   image        String[]
-  category     String         @db.ObjectId
+  category     Int
   categoryId   Category       @relation(fields: [category], references: [id])
   ProductOrder ProductOrder[]
 }
 
 model Order {
-  id               String         @id @default(auto()) @map("_id") @db.ObjectId
-  user             String         @db.ObjectId
+  id               Int            @id @default(autoincrement())
+  user             Int
   userId           User           @relation(fields: [user], references: [id])
   totalPrice       Float
   novaPoshtaBranch String
@@ -58,10 +58,10 @@ model Order {
 }
 
 model ProductOrder {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  id        Int     @id @default(autoincrement())
   Order     Order   @relation(fields: [orderId], references: [id])
-  orderId   String  @db.ObjectId
+  orderId   Int
   quantity  Int
-  product   String  @db.ObjectId
+  product   Int
   productId Product @relation(fields: [product], references: [id])
 }

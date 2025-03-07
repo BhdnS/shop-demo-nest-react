@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete } from '@nestjs/common'
+import { Controller, Patch, Delete, Param } from '@nestjs/common'
 import { UserService } from './user.service'
 import { ApiTags } from '@nestjs/swagger'
 import ApiTagsEnum from '../../types/enums/api-tags'
@@ -9,28 +9,13 @@ import UserControllerLinks from '../../types/enums/controllers-links/user-contro
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  create() {
-    return this.userService.create()
-  }
-
-  @Get()
-  findAll() {
-    return this.userService.findAll()
-  }
-
-  @Get(':id')
-  findOne() {
-    return this.userService.findOne()
-  }
-
   @Patch(':id')
-  update() {
-    return this.userService.update()
+  updateUser() {
+    return this.userService.updateUser()
   }
 
   @Delete(':id')
-  remove() {
-    return this.userService.remove()
+  deleteUser(@Param('id') id: number) {
+    return this.userService.deleteUser(id)
   }
 }

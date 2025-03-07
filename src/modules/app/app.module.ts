@@ -7,15 +7,17 @@ import { OrdersModule } from '../orders/orders.module'
 import { NovaPoshtaModule } from '../nova-poshta/nova-poshta.module'
 import { ProductsModule } from '../products/products.module'
 import { AuthModule } from '../auth/auth.module'
+import { TokenModule } from '../token/token.module'
 
 @Module({
   imports: [
+    AuthModule,
     UserModule,
     CategoriesModule,
+    ProductsModule,
     OrdersModule,
     NovaPoshtaModule,
-    ProductsModule,
-    AuthModule,
+    TokenModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],

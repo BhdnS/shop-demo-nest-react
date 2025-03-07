@@ -1,18 +1,14 @@
 version: '3.8'
-
 services:
-  mongo:
-    image: mongo:latest
-    container_name: mongodb_container
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: Bohdan
-      MONGO_INITDB_ROOT_PASSWORD: Dev1234!!
-      MONGO_INITDB_DATABASE: shop-demo
+  postgres:
+    image: postgres
+    container_name: shop-demo
     ports:
-      - '27017:27017'
-    volumes:
-      - mongo_data:/data/db
-
-volumes:
-  mongo_data:
+      - '5432:5432'
+    environment:
+      - POSTGRES_HOST=localhost
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=postgres
+    command: postgres
+    restart: always
