@@ -2,9 +2,10 @@ import { Controller, Get, Post, Patch, Delete } from '@nestjs/common'
 import { UserService } from './user.service'
 import { ApiTags } from '@nestjs/swagger'
 import ApiTagsEnum from '../../types/enums/api-tags'
+import UserControllerLinks from '../../types/enums/controllers-links/user-controller-links'
 
 @ApiTags(ApiTagsEnum.USER)
-@Controller('user')
+@Controller(UserControllerLinks.CONTROLLER)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

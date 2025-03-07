@@ -2,9 +2,10 @@ import { Controller, Get, Post, Patch, Delete } from '@nestjs/common'
 import { NovaPoshtaService } from './nova-poshta.service'
 import { ApiTags } from '@nestjs/swagger'
 import ApiTagsEnum from '../../types/enums/api-tags'
+import { NovaPoshtaControllerLinks } from '../../types/enums/controllers-links'
 
 @ApiTags(ApiTagsEnum.NOVA_POSHTA)
-@Controller('nova-poshta')
+@Controller(NovaPoshtaControllerLinks.CONTROLLER)
 export class NovaPoshtaController {
   constructor(private readonly novaPoshtaService: NovaPoshtaService) {}
 

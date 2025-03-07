@@ -2,9 +2,10 @@ import { Controller, Get, Post, Patch, Delete } from '@nestjs/common'
 import { ProductsService } from './products.service'
 import { ApiTags } from '@nestjs/swagger'
 import ApiTagsEnum from '../../types/enums/api-tags'
+import { ProductsControllerLinks } from '../../types/enums/controllers-links'
 
 @ApiTags(ApiTagsEnum.PRODUCTS)
-@Controller('products')
+@Controller(ProductsControllerLinks.CONTROLLER)
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
