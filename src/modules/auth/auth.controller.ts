@@ -1,6 +1,9 @@
 import { Controller, Get, Post, Patch, Param, Delete } from '@nestjs/common'
 import { AuthService } from './auth.service'
+import { ApiTags } from '@nestjs/swagger'
+import ApiTagsEnum from '../../types/enums/api-tags'
 
+@ApiTags(ApiTagsEnum.AUTH)
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
