@@ -5,7 +5,7 @@ import {
   fetchBaseQuery,
   FetchBaseQueryError,
   FetchBaseQueryMeta,
-} from '@reduxjs/toolkit/query'
+} from '@reduxjs/toolkit/query/react'
 import { logOut, setToken } from '../auth/authSlice.ts'
 import { TagTypesArray } from '../../utils/constants'
 import { RootState } from '../store/store.ts'

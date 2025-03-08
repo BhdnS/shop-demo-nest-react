@@ -5,6 +5,8 @@ import LayoutAuth from '../components/Layouts/LayoutAuth'
 import LoginPage from '../pages/LoginPage'
 import RegisterPage from '../pages/RegisterPage'
 import HomeComponents from '../components/pagesComponents/HomeComponents'
+import RequireAuth from '../components/pagesComponents/RequireAuth'
+import DashboardPage from '../pages/DashboardPage'
 
 const router = createBrowserRouter([
   {
@@ -22,6 +24,16 @@ const router = createBrowserRouter([
       {
         path: RoutesEnum.REGISTER,
         element: <RegisterPage />,
+      },
+    ],
+  },
+  {
+    element: <RequireAuth />,
+    children: [
+      {
+        index: true,
+        path: RoutesEnum.DASHBOARD,
+        element: <DashboardPage />,
       },
     ],
   },

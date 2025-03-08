@@ -1,5 +1,5 @@
 const TagTypes = {
-  auth: 'auth',
+  Auth: 'auth',
 }
 
 const TagTypesArray = Object.values(TagTypes)

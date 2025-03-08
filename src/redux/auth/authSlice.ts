@@ -1,5 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RoleEnum } from '../../types/enums'
+import { registerResponse } from '../../utils/models/authSchemas/authApiSlice.ts'
 
 interface IInitialState {
   token: string | null
@@ -17,9 +18,9 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setCredentials(state, { payload }) {
+    setCredentials(state, { payload }: PayloadAction<registerResponse>) {
       state.token = payload.token
-      state.isAuth = payload.isAuth
+      state.isAuth = true
       state.role = payload.role
     },
     logOut(state) {
@@ -27,7 +28,7 @@ const authSlice = createSlice({
       state.isAuth = false
       state.role = RoleEnum.USER
     },
-    setToken(state, { payload }) {
+    setToken(state, { payload }: PayloadAction<string>) {
       state.token = payload
     },
   },
