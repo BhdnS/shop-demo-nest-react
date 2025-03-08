@@ -1,12 +1,15 @@
-import { Controller, Get, Post, Patch, Delete, Body, Req, Param } from '@nestjs/common'
+import { Controller, Get, Post, Patch, Delete, Body, Req, Param, UseGuards } from '@nestjs/common'
 import { CategoriesService } from './categories.service'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import ApiTagsEnum from '../../types/enums/api-tags'
 import { CategoriesControllerLinks } from '../../types/enums/controllers-links'
 import { CategoryDto, UpdateCategoryDto } from './dto'
 import { Request } from 'express'
+import { JwtAuthGuard } from '../../guards'
 
 @ApiTags(ApiTagsEnum.CATEGORIES)
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller(CategoriesControllerLinks.CONTROLLER)
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}

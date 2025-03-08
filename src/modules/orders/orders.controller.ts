@@ -1,13 +1,16 @@
-import { Controller, Get, Post, Patch, Delete, Body, Req, Param } from '@nestjs/common'
+import { Controller, Get, Post, Patch, Delete, Body, Req, Param, UseGuards } from '@nestjs/common'
 import { OrdersService } from './orders.service'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import ApiTagsEnum from '../../types/enums/api-tags'
 import { OrdersControllerLinks } from '../../types/enums/controllers-links'
 import { OrderDto, UpdateOrderDto } from './dto'
 import { Request } from 'express'
 import { Order } from '@prisma/client'
+import { JwtAuthGuard } from '../../guards'
 
 @ApiTags(ApiTagsEnum.ORDERS)
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller(OrdersControllerLinks.CONTROLLER)
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}

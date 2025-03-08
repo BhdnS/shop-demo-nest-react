@@ -1,11 +1,14 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param } from '@nestjs/common'
+import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards } from '@nestjs/common'
 import { ProductsService } from './products.service'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import ApiTagsEnum from '../../types/enums/api-tags'
 import { ProductsControllerLinks } from '../../types/enums/controllers-links'
 import { ProductDto, UpdateProductDto } from './dto'
+import { JwtAuthGuard } from '../../guards'
 
 @ApiTags(ApiTagsEnum.PRODUCTS)
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller(ProductsControllerLinks.CONTROLLER)
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}

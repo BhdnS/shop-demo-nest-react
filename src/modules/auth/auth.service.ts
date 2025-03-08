@@ -78,6 +78,6 @@ export class AuthService {
 
     res.setHeader('Authorization', `Bearer ${token}`)
 
-    res.json({ user })
+    res.json(user)
   }
 }

@@ -1,14 +1,17 @@
-import { Controller, Patch, Delete, Body, Req, Get } from '@nestjs/common'
+import { Controller, Patch, Delete, Body, Req, Get, UseGuards } from '@nestjs/common'
 import { UserService } from './user.service'
 import { Request } from 'express'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import ApiTagsEnum from '../../types/enums/api-tags'
 import UserControllerLinks from '../../types/enums/controllers-links/user-controller-links'
 import UpdateUserDto from './dto/update-user.dto'
 import PublicUserResponse from './response/public-user.response'
 import { User } from '@prisma/client'
+import { JwtAuthGuard } from '../../guards'
 
 @ApiTags(ApiTagsEnum.USER)
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller(UserControllerLinks.CONTROLLER)
 export class UserController {
   constructor(private readonly userService: UserService) {}
