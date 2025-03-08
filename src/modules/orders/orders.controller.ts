@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Patch, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Patch, Delete, Body, Req, Param } from '@nestjs/common'
 import { OrdersService } from './orders.service'
 import { ApiTags } from '@nestjs/swagger'
 import ApiTagsEnum from '../../types/enums/api-tags'
 import { OrdersControllerLinks } from '../../types/enums/controllers-links'
+import { OrderDto, UpdateOrderDto } from './dto'
+import { Request } from 'express'
+import { Order } from '@prisma/client'
 
 @ApiTags(ApiTagsEnum.ORDERS)
 @Controller(OrdersControllerLinks.CONTROLLER)
@@ -10,27 +13,27 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  create() {
-    return this.ordersService.create()
+  create(@Body() dto: OrderDto, @Req() req: Request): Promise<Order> {
+    return this.ordersService.create(dto, req)
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<Order[]> {
     return this.ordersService.findAll()
   }
 
   @Get(':id')
-  findOne() {
-    return this.ordersService.findOne()
+  findOne(@Param('id') id: number): Promise<Order | null> {
+    return this.ordersService.findOne(id)
   }
 
   @Patch(':id')
-  update() {
-    return this.ordersService.update()
+  update(@Body() dto: UpdateOrderDto): Promise<Order> {
+    return this.ordersService.update(dto)
   }
 
   @Delete(':id')
-  remove() {
-    return this.ordersService.remove()
+  remove(@Param('id') id: number): Promise<Order> {
+    return this.ordersService.remove(id)
   }
 }

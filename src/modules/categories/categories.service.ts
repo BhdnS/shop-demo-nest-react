@@ -1,24 +1,45 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common'
+import { CategoryDto, UpdateCategoryDto } from './dto'
+import PrismaService from '../prisma'
+import { Request } from 'express'
+import { TokenService } from '../token/token.service'
 
 @Injectable()
 export class CategoriesService {
-  create() {
-    return 'This action adds a new category'
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly tokenService: TokenService
+  ) {}
+
+  async create(dto: CategoryDto, req: Request): Promise<CategoryDto> {
+    const accessToken = req.headers.authorization
+
+    if (!accessToken) throw new BadRequestException(HttpStatus.UNAUTHORIZED)
+
+    const { id } = await this.tokenService.verifyAccessToken(accessToken)
+
+    return this.prismaService.category.create({
+      data: {
+        name: dto.name,
+        image: dto.image,
+        createdBy: id,
+      },
+    })
   }
 
-  findAll() {
-    return `This action returns all categories`
+  async findAll(): Promise<CategoryDto[]> {
+    return this.prismaService.category.findMany()
   }
 
-  findOne() {
-    return `This action returns a #id category`
+  async findOne(id: number): Promise<CategoryDto | null> {
+    return this.prismaService.category.findUnique({ where: { id: id } })
   }
 
-  update() {
-    return `This action updates a #id category`
+  async update(dto: UpdateCategoryDto): Promise<CategoryDto> {
+    return this.prismaService.category.update({ where: { id: dto.id }, data: { name: dto.name, image: dto.image } })
   }
 
-  remove() {
-    return `This action removes a #id category`
+  async remove(id: number): Promise<CategoryDto> {
+    return this.prismaService.category.delete({ where: { id: id } })
   }
 }

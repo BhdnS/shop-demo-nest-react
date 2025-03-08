@@ -1,13 +1,19 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common'
 import PrismaService from '../prisma'
 import * as bcrypt from 'bcrypt'
 import { User } from '@prisma/client'
+import { Request } from 'express'
 import PublicUserResponse from './response/public-user.response'
 import { RegisterUserDto } from '../auth/dto'
+import UpdateUserDto from './dto/update-user.dto'
+import { TokenService } from '../token/token.service'
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly tokenService: TokenService
+  ) {}
 
   async hashPassword(password: string): Promise<string> {
     return bcrypt.hash(password, 10)
@@ -51,11 +57,40 @@ export class UserService {
     await this.prisma.user.create({ data: dto })
   }
 
-  updateUser() {
-    return `This action updates a #id user`
+  async updateUser(dto: UpdateUserDto, req: Request): Promise<PublicUserResponse> {
+    const accessToken = req.headers.authorization
+
+    if (!accessToken) throw new BadRequestException(HttpStatus.UNAUTHORIZED)
+
+    const { id } = await this.tokenService.verifyAccessToken(accessToken)
+
+    return this.prisma.user.update({
+      where: { id },
+      data: dto,
+    })
   }
 
-  async deleteUser(id: number): Promise<User> {
+  async deleteUser(req: Request): Promise<User> {
+    const accessToken = req.headers.authorization
+
+    if (!accessToken) throw new BadRequestException(HttpStatus.UNAUTHORIZED)
+
+    const { id } = await this.tokenService.verifyAccessToken(accessToken)
+
     return this.prisma.user.delete({ where: { id } })
+  }
+
+  async getUser(req: Request): Promise<PublicUserResponse> {
+    const accessToken = req.headers.authorization
+
+    if (!accessToken) throw new BadRequestException(HttpStatus.UNAUTHORIZED)
+
+    const { id } = await this.tokenService.verifyAccessToken(accessToken)
+
+    return this.findUserById(id)
+  }
+
+  async getAllUsers(): Promise<PublicUserResponse[]> {
+    return this.prisma.user.findMany()
   }
 }

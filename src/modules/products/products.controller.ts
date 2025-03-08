@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Patch, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Patch, Delete, Body, Param } from '@nestjs/common'
 import { ProductsService } from './products.service'
 import { ApiTags } from '@nestjs/swagger'
 import ApiTagsEnum from '../../types/enums/api-tags'
 import { ProductsControllerLinks } from '../../types/enums/controllers-links'
+import { ProductDto, UpdateProductDto } from './dto'
 
 @ApiTags(ApiTagsEnum.PRODUCTS)
 @Controller(ProductsControllerLinks.CONTROLLER)
@@ -10,27 +11,27 @@ export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
-  create() {
-    return this.productsService.create()
+  create(@Body() dto: ProductDto): Promise<ProductDto> {
+    return this.productsService.create(dto)
   }
 
-  @Get()
-  findAll() {
-    return this.productsService.findAll()
+  @Get(ProductsControllerLinks.FIND_ALL_BY_CATEGORY)
+  findAllByCategory(@Param('category') category: number): Promise<ProductDto[] | null> {
+    return this.productsService.findAllByCategory(category)
   }
 
   @Get(':id')
-  findOne() {
-    return this.productsService.findOne()
+  findOne(@Param('id') id: number): Promise<ProductDto | null> {
+    return this.productsService.findOne(id)
   }
 
   @Patch(':id')
-  update() {
-    return this.productsService.update()
+  update(@Body() dto: UpdateProductDto): Promise<UpdateProductDto> {
+    return this.productsService.update(dto)
   }
 
   @Delete(':id')
-  remove() {
-    return this.productsService.remove()
+  remove(@Param('id') id: number): Promise<UpdateProductDto> {
+    return this.productsService.remove(id)
   }
 }

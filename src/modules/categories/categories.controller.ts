@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Patch, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Patch, Delete, Body, Req, Param } from '@nestjs/common'
 import { CategoriesService } from './categories.service'
 import { ApiTags } from '@nestjs/swagger'
 import ApiTagsEnum from '../../types/enums/api-tags'
 import { CategoriesControllerLinks } from '../../types/enums/controllers-links'
+import { CategoryDto, UpdateCategoryDto } from './dto'
+import { Request } from 'express'
 
 @ApiTags(ApiTagsEnum.CATEGORIES)
 @Controller(CategoriesControllerLinks.CONTROLLER)
@@ -10,27 +12,27 @@ export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
-  create() {
-    return this.categoriesService.create()
+  create(@Body() dto: CategoryDto, @Req() req: Request): Promise<CategoryDto> {
+    return this.categoriesService.create(dto, req)
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<CategoryDto[]> {
     return this.categoriesService.findAll()
   }
 
   @Get(':id')
-  findOne() {
-    return this.categoriesService.findOne()
+  findOne(@Param('id') id: number): Promise<CategoryDto | null> {
+    return this.categoriesService.findOne(id)
   }
 
   @Patch(':id')
-  update() {
-    return this.categoriesService.update()
+  update(@Body() dto: UpdateCategoryDto): Promise<CategoryDto> {
+    return this.categoriesService.update(dto)
   }
 
   @Delete(':id')
-  remove() {
-    return this.categoriesService.remove()
+  remove(@Param('id') id: number): Promise<CategoryDto> {
+    return this.categoriesService.remove(id)
   }
 }

@@ -25,14 +25,14 @@ export class TokenService {
     }
   }
 
-  async verifyAccessToken(payload: string): Promise<User> {
+  async verifyAccessToken(payload: string): Promise<PublicUserResponse> {
     const token = payload.replace('Bearer ', '')
 
-    const { user } = this.jwtService.verify<{ user: User }>(token, {
+    const user = this.jwtService.verify<User>(token, {
       secret: this.configService.get('secret_jwt'),
     })
 
-    return user
+    return { id: user.id, email: user.email, name: user.name, role: user.role }
   }
 
   async generateRefreshToken(payload: PublicUserResponse): Promise<string> {
