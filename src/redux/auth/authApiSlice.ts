@@ -1,5 +1,5 @@
 import { apiSlice } from '../api/apiSlice.ts'
-import { TagTypes } from '../../utils/constants'
+import { TagTypes, TagTypesArray } from '../../utils/constants'
 import { LoginValidationSchemaType, RegisterValidationSchemaType } from '../../types/auth/authTypes.ts'
 import { transformResponseValidate } from '../../utils/helpers'
 import { registerResponse } from '../../utils/models/authSchemas/authApiSlice.ts'
@@ -61,7 +61,7 @@ const authApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         credentials: 'include',
       }),
-      invalidatesTags: [TagTypes.Auth],
+      invalidatesTags: TagTypesArray,
     }),
   }),
 })

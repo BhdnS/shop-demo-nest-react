@@ -44,7 +44,6 @@ const User: FC<UserProps> = ({ name, role, email, id }) => {
   }
 
   const handleDeleteUser = () => {
-    console.log('id', id)
     deleteUser(id)
   }
 

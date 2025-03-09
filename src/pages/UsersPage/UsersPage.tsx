@@ -14,6 +14,10 @@ const UsersPage = () => {
     return <CircularProgress />
   }
 
+  if (!data.length) {
+    return <Box>Not Users</Box>
+  }
+
   return (
     <Box>
       {data.map((user) => (
