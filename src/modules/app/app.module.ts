@@ -8,6 +8,7 @@ import { NovaPoshtaModule } from '../nova-poshta/nova-poshta.module'
 import { ProductsModule } from '../products/products.module'
 import { AuthModule } from '../auth/auth.module'
 import { TokenModule } from '../token/token.module'
+import { JwtStrategy } from '../../strategy'
 
 @Module({
   imports: [
@@ -23,13 +24,6 @@ import { TokenModule } from '../token/token.module'
       load: [configuration],
     }),
   ],
-  // providers: [
-  //   // {
-  //   //   provide: APP_GUARD,
-  //   //   useClass: RolesGuard,
-  //   // },
-  //   PrismaService,
-  // ],
-  // exports: [PrismaService],
+  providers: [JwtStrategy],
 })
 export class AppModule {}
