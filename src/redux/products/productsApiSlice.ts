@@ -18,7 +18,7 @@ const productsApiSlice = apiSlice.injectEndpoints({
       transformResponse: (response) => transformResponseValidate(response, responseAllProductSchema),
       providesTags: [TagTypes.Product],
     }),
-    createProduct: builder.mutation<CreateProductSchemaType, ResponseProductSchemaType>({
+    createProduct: builder.mutation<ResponseProductSchemaType, CreateProductSchemaType>({
       query: (body) => ({
         url: '/products',
         method: 'POST',

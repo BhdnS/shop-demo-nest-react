@@ -8,16 +8,11 @@ const AdminNavLinks = [
   },
   {
     id: 2,
-    title: 'Products',
-    link: RoutesEnum.PRODUCTS,
-  },
-  {
-    id: 3,
     title: 'Categories',
     link: RoutesEnum.CATEGORIES,
   },
   {
-    id: 4,
+    id: 3,
     title: 'Orders',
     link: RoutesEnum.ORDERS,
   },

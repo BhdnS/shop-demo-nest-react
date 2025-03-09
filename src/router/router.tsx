@@ -56,7 +56,7 @@ const router = createBrowserRouter([
             element: <CategoriesPage />,
           },
           {
-            path: RoutesEnum.PRODUCTS,
+            path: `${RoutesEnum.PRODUCTS}/:id`,
             element: <ProductsPage />,
           },
         ],
