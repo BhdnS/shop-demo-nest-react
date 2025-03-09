@@ -7,6 +7,11 @@ import RegisterPage from '../pages/RegisterPage'
 import HomeComponents from '../components/pagesComponents/HomeComponents'
 import RequireAuth from '../components/pagesComponents/RequireAuth'
 import DashboardPage from '../pages/DashboardPage'
+import Layout from '../components/Layouts/Layout/Layout.tsx'
+import UsersPage from '../pages/UsersPage/UsersPage.tsx'
+import OrdersPage from '../pages/OrdersPage'
+import ProductsPage from '../pages/ProductsPage'
+import CategoriesPage from '../pages/CategoriesPage'
 
 const router = createBrowserRouter([
   {
@@ -31,9 +36,30 @@ const router = createBrowserRouter([
     element: <RequireAuth />,
     children: [
       {
-        index: true,
-        path: RoutesEnum.DASHBOARD,
-        element: <DashboardPage />,
+        element: <Layout />,
+        children: [
+          {
+            index: true,
+            path: RoutesEnum.DASHBOARD,
+            element: <DashboardPage />,
+          },
+          {
+            path: RoutesEnum.USERS,
+            element: <UsersPage />,
+          },
+          {
+            path: RoutesEnum.ORDERS,
+            element: <OrdersPage />,
+          },
+          {
+            path: RoutesEnum.CATEGORIES,
+            element: <CategoriesPage />,
+          },
+          {
+            path: RoutesEnum.PRODUCTS,
+            element: <ProductsPage />,
+          },
+        ],
       },
     ],
   },

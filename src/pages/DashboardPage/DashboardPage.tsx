@@ -1,9 +1,7 @@
+import { Box } from '@mui/material'
+
 const DashboardPage = () => {
-  return (
-    <div>
-      <h1>Dashboard</h1>
-    </div>
-  )
+  return <Box>DashboardPage</Box>
 }
 
 export default DashboardPage
