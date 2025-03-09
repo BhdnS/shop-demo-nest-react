@@ -5,7 +5,7 @@ enum RoutesEnum {
   DASHBOARD = 'dashboard',
   CATEGORIES = 'categories',
   ORDERS = 'orders',
-  PRODUCTS = 'products/:id',
+  PRODUCTS = 'products',
   USERS = 'users',
 }
 
