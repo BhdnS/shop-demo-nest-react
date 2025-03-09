@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Body, Req, Param, UseGuards } from '@nestjs/common'
+import { Controller, Get, Post, Patch, Delete, Body, Req, Param, UseGuards, ParseIntPipe } from '@nestjs/common'
 import { CategoriesService } from './categories.service'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import ApiTagsEnum from '../../types/enums/api-tags'
@@ -35,7 +35,7 @@ export class CategoriesController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number): Promise<CategoryDto> {
+  remove(@Param('id', ParseIntPipe) id: number): Promise<CategoryDto> {
     return this.categoriesService.remove(id)
   }
 }
