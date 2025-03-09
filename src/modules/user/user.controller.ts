@@ -1,4 +1,4 @@
-import { Controller, Patch, Delete, Body, Req, Get, UseGuards } from '@nestjs/common'
+import { Controller, Patch, Delete, Body, Req, Get, UseGuards, Param, ParseIntPipe } from '@nestjs/common'
 import { UserService } from './user.service'
 import { Request } from 'express'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
@@ -27,12 +27,12 @@ export class UserController {
   }
 
   @Patch(UserControllerLinks.UPDATE)
-  updateUser(@Body() dto: UpdateUserDto, @Req() req: Request): Promise<PublicUserResponse> {
-    return this.userService.updateUser(dto, req)
+  updateUser(@Body() dto: UpdateUserDto): Promise<PublicUserResponse> {
+    return this.userService.updateUser(dto)
   }
 
-  @Delete(UserControllerLinks.DELETE)
-  deleteUser(@Req() req: Request): Promise<User> {
-    return this.userService.deleteUser(req)
+  @Delete(`${UserControllerLinks.DELETE}/:id`)
+  deleteUser(@Param('id', ParseIntPipe) id: number): Promise<User> {
+    return this.userService.deleteUser(id)
   }
 }

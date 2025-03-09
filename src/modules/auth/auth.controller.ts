@@ -24,13 +24,11 @@ export class AuthController {
 
   @ApiBearerAuth()
   @Post(AuthControllerLinks.LOGOUT)
-  @UseGuards(JwtAuthGuard)
   logout(@Res() res: Response): Promise<void> {
     return this.authService.logout(res)
   }
 
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
   @Post(AuthControllerLinks.REFRESH_TOKEN)
   refreshToken(@Req() req: Request, @Res() res: Response): Promise<void> {
     return this.authService.refreshToken(req, res)

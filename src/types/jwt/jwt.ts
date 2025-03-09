@@ -1,7 +1,8 @@
-import { User } from '@prisma/client'
-
 export interface IJwtPayload {
-  user: User
+  id: number
+  email: string
+  name: string
+  role: string
   iat: number
   exp: number
 }

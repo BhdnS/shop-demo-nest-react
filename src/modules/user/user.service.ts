@@ -1,7 +1,7 @@
 import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common'
 import PrismaService from '../prisma'
 import * as bcrypt from 'bcrypt'
-import { User } from '@prisma/client'
+import { Role, User } from '@prisma/client'
 import { Request } from 'express'
 import PublicUserResponse from './response/public-user.response'
 import { RegisterUserDto } from '../auth/dto'
@@ -57,26 +57,20 @@ export class UserService {
     await this.prisma.user.create({ data: dto })
   }
 
-  async updateUser(dto: UpdateUserDto, req: Request): Promise<PublicUserResponse> {
-    const accessToken = req.headers.authorization
-
-    if (!accessToken) throw new BadRequestException(HttpStatus.UNAUTHORIZED)
-
-    const { id } = await this.tokenService.verifyAccessToken(accessToken)
+  async updateUser(dto: UpdateUserDto): Promise<PublicUserResponse> {
+    const role = dto.role as Role
 
     return this.prisma.user.update({
-      where: { id },
-      data: dto,
+      where: { id: dto.id },
+      data: {
+        email: dto.email,
+        name: dto.name,
+        role: role,
+      },
     })
   }
 
-  async deleteUser(req: Request): Promise<User> {
-    const accessToken = req.headers.authorization
-
-    if (!accessToken) throw new BadRequestException(HttpStatus.UNAUTHORIZED)
-
-    const { id } = await this.tokenService.verifyAccessToken(accessToken)
-
+  async deleteUser(id: number): Promise<User> {
     return this.prisma.user.delete({ where: { id } })
   }
 
@@ -91,6 +85,14 @@ export class UserService {
   }
 
   async getAllUsers(): Promise<PublicUserResponse[]> {
-    return this.prisma.user.findMany()
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        password: false,
+      },
+    })
   }
 }
