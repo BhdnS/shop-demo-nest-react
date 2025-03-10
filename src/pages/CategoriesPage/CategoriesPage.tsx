@@ -7,6 +7,7 @@ import CategoryCard from '../../components/pagesComponents/CategoryCard'
 
 const CategoriesPage = () => {
   const { data, isFetching, isError } = useGetAllCategoriesQuery()
+
   if (isError) {
     return <ErrorComponent />
   }
