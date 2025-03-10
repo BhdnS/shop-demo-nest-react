@@ -11,9 +11,8 @@ import { responseAllProductSchema, responseProductSchema } from '../../utils/mod
 const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProductsByCategory: builder.query<ResponseAllProductSchemaType, number>({
-      query: (category) => ({
-        url: `/products/find-all-by-category`,
-        params: { category },
+      query: (id) => ({
+        url: `/products/find-all-by-category/${id}`,
       }),
       transformResponse: (response) => transformResponseValidate(response, responseAllProductSchema),
       providesTags: [TagTypes.Product],
