@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards } from '@nestjs/common'
+import { Controller, Get, Post, Patch, Delete, Body, Param, UseGuards, ParseIntPipe } from '@nestjs/common'
 import { ProductsService } from './products.service'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import ApiTagsEnum from '../../types/enums/api-tags'
@@ -34,7 +34,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number): Promise<UpdateProductDto> {
+  remove(@Param('id', ParseIntPipe) id: number): Promise<UpdateProductDto> {
     return this.productsService.remove(id)
   }
 }
