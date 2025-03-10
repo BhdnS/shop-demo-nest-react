@@ -18,8 +18,8 @@ export class ProductsController {
     return this.productsService.create(dto)
   }
 
-  @Get(ProductsControllerLinks.FIND_ALL_BY_CATEGORY)
-  findAllByCategory(@Param('category') category: number): Promise<ProductDto[] | null> {
+  @Get(`${ProductsControllerLinks.FIND_ALL_BY_CATEGORY}/:id`)
+  findAllByCategory(@Param('id', ParseIntPipe) category: number): Promise<ProductDto[] | null> {
     return this.productsService.findAllByCategory(category)
   }
 
