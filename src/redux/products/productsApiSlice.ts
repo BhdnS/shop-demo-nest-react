@@ -29,10 +29,9 @@ const productsApiSlice = apiSlice.injectEndpoints({
     }),
     updateProductById: builder.mutation<ResponseProductSchemaType, ResponseProductSchemaType>({
       query: (body) => ({
-        url: `/products`,
+        url: `/products/${body.id}`,
         method: 'PATCH',
         body,
-        params: { id: body.id },
       }),
       transformResponse: (response) => transformResponseValidate(response, responseProductSchema),
       invalidatesTags: [TagTypes.Product],

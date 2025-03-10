@@ -32,20 +32,18 @@ const User: FC<UserProps> = ({ name, role, email, id }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty, isValid, isSubmitting },
   } = methods
 
   const handleEditClick = () => {
-    setIsEdit(true)
-  }
-
-  const handleCancelEditClick = () => {
-    setIsEdit(false)
+    setIsEdit(!isEdit)
   }
 
   const handleDeleteUser = () => {
     deleteUser(id)
   }
+
+  const isDisabled = !isValid || isDirty || isSubmitting
 
   return (
     <>
@@ -55,10 +53,10 @@ const User: FC<UserProps> = ({ name, role, email, id }) => {
           <TextField {...register('role')} label="role" error={!!errors.role} helperText={errors.role?.message} />
           <TextField {...register('email')} label="email" error={!!errors.email} helperText={errors.email?.message} />
           <Box sx={styles.btnBox}>
-            <Button type="submit" variant="contained">
+            <Button disabled={!isDisabled} type="submit" variant="contained">
               Save
             </Button>
-            <Button onClick={handleCancelEditClick} type="button" variant="contained">
+            <Button onClick={handleEditClick} type="button" variant="contained">
               Cancel
             </Button>
           </Box>
