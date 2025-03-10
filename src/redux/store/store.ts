@@ -4,6 +4,7 @@ import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist
 import auth from '../auth/authSlice.ts'
 import { configureStore } from '@reduxjs/toolkit'
 import { apiSlice } from '../api/apiSlice.ts'
+import order from '../order/orderSlice.ts'
 
 const authPersistConfig = {
   key: 'auth',
@@ -15,6 +16,7 @@ const persistedAuthReducer = persistReducer(authPersistConfig, auth)
 
 const rootReducer = {
   auth: persistedAuthReducer,
+  order,
   [apiSlice.reducerPath]: apiSlice.reducer,
 }
 
